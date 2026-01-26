@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+  <meta charset="UTF-8" />
+  <title>Impact Map Viewer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    aside {
+      width: 240px;
+      padding: 20px;
+      background: #f5f5f5;
+      border-right: 2px solid #69ab46;
+      overflow-y: auto;
+    }
+    header {
+      padding: 10px;
+      background: #f5f5f5;
+      border-bottom: 2px solid #69ab46;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #content {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .card {
+      border: 2px solid #69ab46;
+      border-radius: 8px;
+      padding: 16px;
+      background: white;
+      margin-bottom: 20px;
+    }
+    .label, .theme-label {
+      font-size: 0.85em;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #69ab46;
+      color: white;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .theme-label {
+      float: right;
+      font-size: 0.75em;
+    }
+    .source {
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 10px;
+    }
+    .toggle-btn {
+      margin-top: 10px;
+      background: none;
+      border: none;
+      color: #69ab46;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .related-list {
+      display: none;
+      margin-top: 10px;
+    }
+    .related-list.expanded {
+      display: block;
+    }
+    .related-item {
+      border-left: 3px solid #69ab46;
+      background: #f0f9e8;
+      padding: 8px;
+      border-radius: 4px;
+      margin-top: 8px;
+    }
+
+    /* Checkbox styling */
+    aside label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      font-size: 0.9em;
+      cursor: pointer;
+    }
+
+    aside input[type="checkbox"] {
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #69ab46;
+      border-radius: 3px;
+      display: inline-block;
+      position: relative;
+      cursor: pointer;
+    }
+
+    aside input[type="checkbox"]:checked::before {
+      content: '✔';
+      color: white;
+      font-size: 12px;
+      position: absolute;
+      left: 1px;
+      top: -1px;
+    }
+
+    aside input[type="checkbox"]:checked {
+      background-color: #69ab46;
+    }
+  </style>
+</head>
+<body>
+
+<aside>
+  <h3>Theme Filters</h3>
+  <div id="themeFilters"></div>
+</aside>
+
+<div id="main">
+  <header>
+    <input id="search" type="text" placeholder="Search..." />
+    <button id="toggleView">Switch to Leverage View</button>
+  </header>
+  <div id="content"></div>
+</div>
+
+<script>
+  let data = { barriers: [], leveragePoints: [] };
+  let isBarrierView = true;
+  const selectedThemes = new Set();
+
+  async function loadData() {
+    const res = await fetch('https://raw.githubusercontent.com/AlexTour/Barrier-Leverage1/refs/heads/main/impactMap.json');
+    data = await res.json();
+    renderThemeFilters();
+    renderView();
+  }
+
+  function renderThemeFilters() {
+    const themes = new Set([
+      ...data.barriers.map(b => b.theme),
+      ...data.leveragePoints.map(l => l.theme)
+    ]);
+
+    const container = document.getElementById('themeFilters');
+    themes.forEach(t => {
+      selectedThemes.add(t);
+      container.innerHTML += `<label><input type="checkbox" value="${t}" checked /> ${t}</label>`;
+    });
+
+    container.querySelectorAll('input').forEach(cb => {
+      cb.addEventListener('change', () => {
+        cb.checked ? selectedThemes.add(cb.value) : selectedThemes.delete(cb.value);
+        renderView();
+      });
+    });
+  }
+
+  function renderView() {
+    const term = document.getElementById('search').value.toLowerCase();
+    const container = document.getElementById('content');
+    container.innerHTML = '';
+
+    if (isBarrierView) {
+      data.barriers
+        .filter(b => selectedThemes.has(b.theme))
+        .filter(b => (b.tag + b.description).toLowerCase().includes(term))
+        .forEach(b => container.appendChild(createBarrierCard(b)));
+    } else {
+      data.leveragePoints
+        .filter(l => selectedThemes.has(l.theme))
+        .filter(l => (l.action + l.description).toLowerCase().includes(term))
+        .forEach(l => container.appendChild(createLeverageCard(l)));
+    }
+  }
+
+  function createBarrierCard(b) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div><span class="label">Barrier</span><span class="theme-label">${b.theme}</span></div>
+      <h3>${b.tag} (${b.id})</h3>
+      <p>${b.description}</p>
+      <div class="source">Source: ${b.source}</div>
+      <button class="toggle-btn">Show related leverage points</button>
+      <div class="related-list"></div>
+    `;
+    const btn = card.querySelector('.toggle-btn');
+    const list = card.querySelector('.related-list');
+    btn.onclick = () => {
+      if (list.classList.toggle('expanded')) {
+        const related = data.leveragePoints.filter(lp => lp.addressesBarrierIDs.includes(b.id) && selectedThemes.has(lp.theme));
+        list.innerHTML = related.map(lp => `
+          <div class="related-item">
+            <strong>${lp.action} (${lp.id})</strong><br>
+            ${lp.description}
+            <div class="source">Source: ${lp.source}</div>
+          </div>
+        `).join('') || '<p>No related leverage points match filters.</p>';
+        btn.textContent = 'Hide related leverage points';
+      } else {
+        list.innerHTML = '';
+        btn.textContent = 'Show related leverage points';
+      }
+    };
+    return card;
+  }
+
+  function createLeverageCard(l) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div><span class="label">Leverage Point</span><span class="theme-label">${l.theme}</span></div>
+      <h3>${l.action} (${l.id})</h3>
+      <p>${l.description}</p>
+      <div class="source">Source: ${l.source}</div>
+      <button class="toggle-btn">Show related barriers</button>
+      <div class="related-list"></div>
+    `;
+    const btn = card.querySelector('.toggle-btn');
+    const list = card.querySelector('.related-list');
+    btn.onclick = () => {
+      if (list.classList.toggle('expanded')) {
+        const related = data.barriers.filter(b => l.addressesBarrierIDs.includes(b.id) && selectedThemes.has(b.theme));
+        list.innerHTML = related.map(b => `
+          <div class="related-item">
+            <strong>${b.tag} (${b.id})</strong><br>
+            ${b.description}
+            <div class="source">Source: ${b.source}</div>
+          </div>
+        `).join('') || '<p>No related barriers match filters.</p>';
+        btn.textContent = 'Hide related barriers';
+      } else {
+        list.innerHTML = '';
+        btn.textContent = 'Show related barriers';
+      }
+    };
+    return card;
+  }
+
+  document.getElementById('toggleView').onclick = () => {
+    isBarrierView = !isBarrierView;
+    document.getElementById('toggleView').textContent = isBarrierView ? 'Switch to Leverage View' : 'Switch to Barrier View';
+    renderView();
+  };
+  document.getElementById('search').oninput = renderView;
+
+  loadData();
+</script>
+</body>
+</html>
