@@ -110,7 +110,7 @@ body {
 
 .content li { margin-bottom: 10px; }
 
-/* ========================= CTA (CONSISTENT) ========================= */
+/* ========================= CTA ========================= */
 .cta {
   display: inline-block;
   padding: 14px 36px;
@@ -138,12 +138,12 @@ body {
   justify-content: center;
 }
 
-/* Visual elements simplified */
-.ui-mockup,
-.dot-node,
-.vis-immersive,
-.node {
-  border-radius: 0;
+.visual-box svg {
+  width: 160px;
+  height: 160px;
+  stroke: var(--primary);
+  stroke-width: 1.8;
+  fill: none;
 }
 
 /* ========================= FOOTER ========================= */
@@ -193,24 +193,64 @@ footer {
 
 <section class="hero reveal">
   <h1>Community Store</h1>
-  <p>A single access point to tools, services, immersive content, and structured knowledge developed within the RURBANIVE project.</p>
-  <a href="#explore" class="cta">Explore the Catalogue</a>
+  <p>
+    The Community Store is a single access point to tools, services, immersive content,  
+    and structured knowledge developed within the RURBANIVE project to support rural–urban cooperation.
+  </p>
 </section>
 
 <section class="section" id="explore">
   <div class="content reveal">
-    <h2>Community Store</h2>
-    <p>The Community Store allows users to explore project outputs and identify relevant resources.</p>
-    <a class="cta" href="community-store.html">Enter Store</a>
+    <h2>What Is the Community Store?</h2>
+    <p>
+      The Community Store allows users to explore project outputs, understand how they were used in real contexts,
+      and identify resources relevant to their own rural–urban activities.
+    </p>
+    <p>
+      It brings together tools, services, immersive experiences, and knowledge assets produced across
+      RURBANIVE’s Rural–Urban Co-Creation Labs.
+    </p>
   </div>
-  <div class="visual-box reveal"></div>
+  <div class="visual-box reveal">
+    <!-- HUB ICON -->
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3"/>
+      <circle cx="4" cy="12" r="2"/>
+      <circle cx="20" cy="12" r="2"/>
+      <circle cx="12" cy="4" r="2"/>
+      <circle cx="12" cy="20" r="2"/>
+      <line x1="6" y1="12" x2="9" y2="12"/>
+      <line x1="15" y1="12" x2="18" y2="12"/>
+      <line x1="12" y1="6" x2="12" y2="9"/>
+      <line x1="12" y1="15" x2="12" y2="18"/>
+    </svg>
+  </div>
 </section>
 
 <section class="section alt">
-  <div class="visual-box reveal"></div>
+  <div class="visual-box reveal">
+    <!-- TOOLS ICON -->
+    <svg viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7"/>
+      <rect x="14" y="3" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/>
+      <rect x="14" y="14" width="7" height="7"/>
+    </svg>
+  </div>
   <div class="content reveal">
     <h2>Rural–Urban Enablers (RUEs)</h2>
-    <p>A structured catalogue of tools and services addressing concrete rural–urban challenges.</p>
+    <p>
+      A structured catalogue of tools and services addressing concrete rural–urban challenges.
+    </p>
+    <ul>
+      <li>What the tool or service does</li>
+      <li>Who it is intended for</li>
+      <li>How it was used within the project</li>
+      <li>What type of outputs it produces</li>
+    </ul>
+    <p>
+      RUEs can be browsed by thematic domain and territorial applicability.
+    </p>
     <a class="cta" href="rues.html">Explore RUEs</a>
   </div>
 </section>
@@ -218,17 +258,46 @@ footer {
 <section class="section">
   <div class="content reveal">
     <h2>Immersive Campaigns</h2>
-    <p>Explore immersive content directly through a web browser.</p>
+    <p>
+      A collection of immersive content developed through rural–urban co-creation activities.
+    </p>
+    <p>
+      Users can explore immersive material directly through a web browser, without specialised hardware,
+      to understand the contexts, narratives, and experiences developed during the project.
+    </p>
     <a class="cta" href="immersive-campaigns.html">View Campaigns</a>
   </div>
-  <div class="visual-box reveal"></div>
+  <div class="visual-box reveal">
+    <!-- IMMERSIVE ICON -->
+    <svg viewBox="0 0 24 24">
+      <path d="M2 12c3-5 15-5 20 0"/>
+      <path d="M2 12c3 5 15 5 20 0"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  </div>
 </section>
 
 <section class="section alt">
-  <div class="visual-box reveal"></div>
+  <div class="visual-box reveal">
+    <!-- KNOWLEDGE ICON -->
+    <svg viewBox="0 0 24 24">
+      <path d="M4 4h16v16H4z"/>
+      <line x1="8" y1="8" x2="16" y2="8"/>
+      <line x1="8" y1="12" x2="16" y2="12"/>
+      <line x1="8" y1="16" x2="14" y2="16"/>
+    </svg>
+  </div>
   <div class="content reveal">
     <h2>Knowledge Inventory</h2>
-    <p>A curated repository of project knowledge and policy material.</p>
+    <p>
+      A curated repository of project knowledge, supporting learning, reuse,
+      and comparison across rural–urban contexts.
+    </p>
+    <ul>
+      <li>Good practices from Rural–Urban Co-Creation Labs (RUCLs)</li>
+      <li>Practice abstracts and business models</li>
+      <li>Policy briefs and synthesis documents</li>
+    </ul>
     <a class="cta" href="knowledge-inventory.html">Browse Inventory</a>
   </div>
 </section>
@@ -236,16 +305,36 @@ footer {
 <section class="section">
   <div class="content reveal">
     <h2>Community of Practice Suite</h2>
-    <p>An integrated entry point to participatory processes based on the Decidim platform.</p>
+    <p>
+      An integrated entry point to participatory processes and stakeholder interaction tools,
+      based on the Decidim platform.
+    </p>
+    <p>
+      The suite supports dialogue, engagement, and collective reflection among rural and urban actors
+      involved in rural–urban development processes.
+    </p>
     <a class="cta" href="community-suite.html">Join the Suite</a>
   </div>
-  <div class="visual-box reveal"></div>
+  <div class="visual-box reveal">
+    <!-- COMMUNITY ICON -->
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="7" r="3"/>
+      <circle cx="5" cy="14" r="3"/>
+      <circle cx="19" cy="14" r="3"/>
+      <line x1="7" y1="13" x2="10" y2="9"/>
+      <line x1="17" y1="13" x2="14" y2="9"/>
+    </svg>
+  </div>
 </section>
 
 <footer class="reveal">
   <div class="footer-inner">
     <h2>Access and Availability</h2>
-    <p>The Community Store is currently available in English.</p>
+    <p>
+      The Community Store is currently available in English.
+      Additional languages are provided where content has been developed and used in specific RUCL localities.
+      Access policies and integration levels vary by section and tool maturity.
+    </p>
   </div>
 </footer>
 
