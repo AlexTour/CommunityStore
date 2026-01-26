@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Community Store – RURBANIVE</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #2f7f2d;
+  --primary-light: #7ec242;
+  --bg-light: #f8faf7;
+  --text-dark: #1c2a1c;
+  --scroll-y: 0;
+}
+
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  color: var(--text-dark);
+  background: var(--bg-light);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ========================= BACKGROUND ========================= */
+.bg-container {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  filter: blur(100px);
+  opacity: 0.6;
+  background: radial-gradient(circle at 50% 50%, #ffffff, #eef5ed);
+}
+
+.blob {
+  position: absolute;
+  transition: transform 0.2s linear;
+}
+
+.blob-1 {
+  width: 700px; height: 700px;
+  background: var(--primary-light);
+  top: -10%; left: -10%;
+  transform: translate(calc(var(--scroll-y) * 120px), calc(var(--scroll-y) * 80px));
+}
+
+.blob-2 {
+  width: 600px; height: 600px;
+  background: #0f6b44;
+  bottom: -10%; right: -10%;
+  transform: translate(calc(var(--scroll-y) * -150px), calc(var(--scroll-y) * -100px));
+}
+
+/* ========================= HERO ========================= */
+.hero {
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: clamp(40px, 8vw, 80px);
+  font-weight: 800;
+  margin-bottom: 20px;
+  background: linear-gradient(to right, #0f6b44, #7ec242);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 20px;
+  max-width: 850px;
+  color: #4a5a4a;
+}
+
+/* ========================= SECTIONS ========================= */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.section.alt .content { order: 2; }
+.section.alt .visual-box { order: 1; }
+
+.content h2 {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.content ul {
+  margin: 20px 0;
+  padding-left: 20px;
+}
+
+.content li { margin-bottom: 10px; }
+
+/* ========================= CTA (CONSISTENT) ========================= */
+.cta {
+  display: inline-block;
+  padding: 14px 36px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 15px;
+  transition: 0.25s ease;
+}
+
+.cta:hover {
+  background: #1c2a1c;
+  transform: translateY(-2px);
+}
+
+/* ========================= VISUAL BOX ========================= */
+.visual-box {
+  height: 380px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Visual elements simplified */
+.ui-mockup,
+.dot-node,
+.vis-immersive,
+.node {
+  border-radius: 0;
+}
+
+/* ========================= FOOTER ========================= */
+footer {
+  background: white;
+  padding: 80px 30px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.footer-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.footer-inner h2 {
+  color: var(--primary);
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* ========================= REVEAL ========================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.9s ease-out;
+}
+
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 900px) {
+  .section { grid-template-columns: 1fr; text-align: center; }
+  .visual-box { height: 260px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-container">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+</div>
+
+<section class="hero reveal">
+  <h1>Community Store</h1>
+  <p>A single access point to tools, services, immersive content, and structured knowledge developed within the RURBANIVE project.</p>
+  <a href="#explore" class="cta">Explore the Catalogue</a>
+</section>
+
+<section class="section" id="explore">
+  <div class="content reveal">
+    <h2>Community Store</h2>
+    <p>The Community Store allows users to explore project outputs and identify relevant resources.</p>
+    <a class="cta" href="community-store.html">Enter Store</a>
+  </div>
+  <div class="visual-box reveal"></div>
+</section>
+
+<section class="section alt">
+  <div class="visual-box reveal"></div>
+  <div class="content reveal">
+    <h2>Rural–Urban Enablers (RUEs)</h2>
+    <p>A structured catalogue of tools and services addressing concrete rural–urban challenges.</p>
+    <a class="cta" href="rues.html">Explore RUEs</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="content reveal">
+    <h2>Immersive Campaigns</h2>
+    <p>Explore immersive content directly through a web browser.</p>
+    <a class="cta" href="immersive-campaigns.html">View Campaigns</a>
+  </div>
+  <div class="visual-box reveal"></div>
+</section>
+
+<section class="section alt">
+  <div class="visual-box reveal"></div>
+  <div class="content reveal">
+    <h2>Knowledge Inventory</h2>
+    <p>A curated repository of project knowledge and policy material.</p>
+    <a class="cta" href="knowledge-inventory.html">Browse Inventory</a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="content reveal">
+    <h2>Community of Practice Suite</h2>
+    <p>An integrated entry point to participatory processes based on the Decidim platform.</p>
+    <a class="cta" href="community-suite.html">Join the Suite</a>
+  </div>
+  <div class="visual-box reveal"></div>
+</section>
+
+<footer class="reveal">
+  <div class="footer-inner">
+    <h2>Access and Availability</h2>
+    <p>The Community Store is currently available in English.</p>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', () => {
+  const scrollPercent = window.scrollY / (document.body.offsetHeight - window.innerHeight);
+  document.documentElement.style.setProperty('--scroll-y', scrollPercent);
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add("in-view");
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
