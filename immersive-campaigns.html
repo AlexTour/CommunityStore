@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web3D Campaign Grid</title>
+
+  <!-- Material Symbols Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      border: 2px solid #7ec242;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .card-title {
+      font-weight: bold;
+      margin-bottom: 4px;
+      font-size: 28px;
+    }
+
+    .card-subtitle {
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Icon style */
+    .material-symbols-outlined {
+      font-size: 28px;
+      vertical-align: middle;
+    }
+
+    /* Button Row */
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: auto;
+      padding-top: 15px;
+    }
+
+    /* Explore Button */
+    .explore-btn {
+      background: linear-gradient(90deg, #8dc742, #186149);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      justify-content: center; 
+    }
+
+    /* Modal */
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      width: 90%;
+      height: 90%;
+      background: #000;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .modal iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #7ec242;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="campaignGrid"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✕ Close</button>
+      <iframe id="modalFrame"></iframe>
+    </div>
+  </div>
+
+  <script>
+    const campaigns = [
+      { title: "Milos", subtitle: "Category A", url: "https://nextgen-fa2e9.web.app/?campaignId=555", img: "milosPreview.png" },
+      { title: "Lithuania", subtitle: "Category B", url: "https://nextgen-fa2e9.web.app/?campaignId=563", img: "lithuaniaPreview.png" },
+      { title: "Lemgo", subtitle: "Category C", url: "https://nextgen-fa2e9.web.app/?campaignId=562", img: "lemgoPreview.png" }
+    ];
+
+    const grid = document.getElementById("campaignGrid");
+    const modal = document.getElementById("modal");
+    const modalFrame = document.getElementById("modalFrame");
+
+    // Load cards
+    campaigns.forEach(c => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="${c.img}" alt="${c.title}">
+        <div class="card-content">
+          <div class="card-title">${c.title}</div>
+          <div class="card-subtitle">${c.subtitle}</div>
+
+          <div class="button-row">        
+            <button class="explore-btn" onclick="openExperience('${c.url}', event)">
+              <span class="material-symbols-outlined">view_in_ar</span>
+              Explore
+            </button>
+          </div>
+        </div>
+      `;
+
+      // Clicking anywhere on the card starts the experience
+      card.addEventListener("click", () => {
+        openExperience(c.url);
+      });
+
+      grid.appendChild(card);
+    });
+
+    // Open 3D Experience
+    function openExperience(url, event) {
+      if (event) event.stopPropagation(); // Prevent card click doubling
+      modal.style.display = "flex";
+      modalFrame.src = url;
+    }
+
+    // Close modal
+    function closeModal() {
+      modal.style.display = "none";
+      modalFrame.src = "";
+    }
+  </script>
+
+</body>
+</html>
