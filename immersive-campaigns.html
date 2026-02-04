@@ -25,7 +25,6 @@
 
     .card {
       border: 2px solid #7ec242;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
       background: #fff;
@@ -46,7 +45,7 @@
     }
 
     .card-content {
-      padding: 15px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
     }
@@ -55,28 +54,32 @@
     .card-title {
       font-weight: 700;
       font-size: 22px;
-      margin-bottom: 6px;
       color: #0C644F;
+      line-height: 1.2;
+      margin-bottom: 4px;
     }
 
-    /* META ROWS */
-    .meta {
-      font-size: 18px;
-      color: #444;
-      line-height: 1.4;
-    }
-
-    .meta span {
+    /* RUE */
+    .card-rue {
+      font-size: 15px;
       font-weight: 600;
-      color: #222;
+      color: #8dc642; /* requested color */
+      margin-bottom: 6px;
+    }
+
+    /* LOCATION */
+    .location {
+      font-size: 15px;
+      color: #555;
+      margin-bottom: 10px;
     }
 
     /* TAGS */
     .tags {
-      font-size: 16px;
+      font-size: 14px;
       color: #276c53;
-      margin-top: 6px;
-      font-weight: 700px;
+      margin-bottom: 14px;
+      line-height: 1.4;
     }
 
     .tags span {
@@ -87,7 +90,7 @@
     /* Button Row */
     .button-row {
       display: flex;
-      margin-top: 14px;
+      margin-top: auto;
     }
 
     .explore-btn {
@@ -174,16 +177,16 @@
         img: "milosPreview.png"
       },
       {
-        name: "Kedainiai's Start-up village",
-        rue: "User engagement",
+        name: "Kedainiai's Start-up Village",
+        rue: "User Engagement",
         country: "Lithuania",
-        city: "Kedainiai district municipality",
+        city: "Kedainiai District Municipality",
         tags: ["logistics", "value-chains", "agrifood"],
         url: "https://nextgen-fa2e9.web.app/?campaignId=563",
         img: "lithuaniaPreview2.png"
       },
       {
-        name: "Bike safety in Lemgo",
+        name: "Bike Safety in Lemgo",
         rue: "Mobility",
         country: "Germany",
         city: "Lemgo",
@@ -192,8 +195,8 @@
         img: "lemgoPreview.png"
       },
       {
-        name: "Training: Dairy products",
-        rue: "User engagement",
+        name: "Training: Dairy Products",
+        rue: "User Engagement",
         country: "Czech Republic",
         city: "Prague",
         tags: ["food", "agriculture", "training"],
@@ -201,10 +204,10 @@
         img: "czechPreview.png"
       },
       {
-        name: "Las Machorras, year 2010",
+        name: "Las Machorras, Year 2010",
         rue: "Culture",
         country: "Spain",
-        city: "Burgos province",
+        city: "Burgos Province",
         tags: ["heritage", "territory", "storytelling"],
         url: "https://nextgen-fa2e9.web.app/?campaignId=564",
         img: "spainPreview.png"
@@ -224,11 +227,8 @@
         <img src="${c.img}" alt="${c.name}">
         <div class="card-content">
           <div class="card-title">${c.name}</div>
-
-          <div class="meta"><span>RUE:</span> ${c.rue}</div>
-          <div class="meta"><span>Country:</span> ${c.country}</div>
-          <div class="meta"><span>City:</span> ${c.city}</div>
-
+          <div class="card-rue">${c.rue}</div>
+          <div class="location">${c.city}, ${c.country}</div>
           <div class="tags"><span>Tags:</span> ${c.tags.join(", ")}</div>
 
           <div class="button-row">
