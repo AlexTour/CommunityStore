@@ -25,7 +25,6 @@
 
     .card {
       border: 2px solid #7ec242;
-      border-radius: 8px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -50,49 +49,62 @@
       padding: 15px;
       display: flex;
       flex-direction: column;
-
+      gap: 6px;
     }
 
+    /* NAME */
     .card-title {
-      font-weight: bold;
-      margin-bottom: 4px;
-      font-size: 28px;
+      font-weight: 700;
+      font-size: 22px;
+      margin-bottom: 6px;
     }
 
-    .card-subtitle {
+    /* META ROWS */
+    .meta {
       font-size: 14px;
-      color: #555;
+      color: #444;
+      line-height: 1.4;
     }
 
-    /* Icon style */
-    .material-symbols-outlined {
-      font-size: 28px;
-      vertical-align: middle;
+    .meta span {
+      font-weight: 600;
+      color: #222;
+    }
+
+    /* TAGS */
+    .tags {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
+    }
+
+    .tags span {
+      font-weight: 600;
+      color: #444;
     }
 
     /* Button Row */
     .button-row {
       display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      margin-top: auto;
-      padding-top: 15px;
+      margin-top: 14px;
     }
 
-    /* Explore Button */
     .explore-btn {
       background: linear-gradient(90deg, #8dc742, #186149);
       color: white;
       border: none;
       padding: 10px 14px;
-      border-radius: 6px;
-      font-size: 20px;
+      font-size: 16px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 8px;
-      flex: 1;
-      justify-content: center; 
+      width: 100%;
+      justify-content: center;
+    }
+
+    .material-symbols-outlined {
+      font-size: 22px;
     }
 
     /* Modal */
@@ -113,7 +125,6 @@
       width: 90%;
       height: 90%;
       background: #000;
-      border-radius: 10px;
       overflow: hidden;
       position: relative;
     }
@@ -132,7 +143,6 @@
       color: white;
       border: none;
       padding: 8px 12px;
-      border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
       z-index: 1001;
@@ -153,29 +163,74 @@
 
   <script>
     const campaigns = [
-      { title: "Milos", subtitle: "Category A", url: "https://nextgen-fa2e9.web.app/?campaignId=555", img: "milosPreview.png" },
-      { title: "Lithuania", subtitle: "Category B", url: "https://nextgen-fa2e9.web.app/?campaignId=563", img: "lithuaniaPreview2.png" },
-      { title: "Lemgo", subtitle: "Category C", url: "https://nextgen-fa2e9.web.app/?campaignId=562", img: "lemgoPreview.png" },
-      { title: "Czech Republik", subtitle: "Category C", url: "https://nextgen-fa2e9.web.app/?campaignId=553", img: "czechPreview.png" },
-      { title: "Burgos Province", subtitle: "Category C", url: "https://nextgen-fa2e9.web.app/?campaignId=564", img: "spainPreview.png" }
+      {
+        name: "Milos",
+        rue: "Immersive Campaigns",
+        country: "Greece",
+        city: "Milos",
+        tags: ["tourism", "islands", "co-creation"],
+        url: "https://nextgen-fa2e9.web.app/?campaignId=555",
+        img: "milosPreview.png"
+      },
+      {
+        name: "Lithuania",
+        rue: "Rural–Urban Enablers",
+        country: "Lithuania",
+        city: "Kaunas",
+        tags: ["logistics", "value-chains", "food"],
+        url: "https://nextgen-fa2e9.web.app/?campaignId=563",
+        img: "lithuaniaPreview2.png"
+      },
+      {
+        name: "Lemgo",
+        rue: "Knowledge Inventory",
+        country: "Germany",
+        city: "Lemgo",
+        tags: ["education", "innovation", "policy"],
+        url: "https://nextgen-fa2e9.web.app/?campaignId=562",
+        img: "lemgoPreview.png"
+      },
+      {
+        name: "Czech Republic",
+        rue: "Rural–Urban Enablers",
+        country: "Czech Republic",
+        city: "Prague",
+        tags: ["food", "agriculture", "training"],
+        url: "https://nextgen-fa2e9.web.app/?campaignId=553",
+        img: "czechPreview.png"
+      },
+      {
+        name: "Burgos Province",
+        rue: "Immersive Campaigns",
+        country: "Spain",
+        city: "Burgos",
+        tags: ["heritage", "territory", "storytelling"],
+        url: "https://nextgen-fa2e9.web.app/?campaignId=564",
+        img: "spainPreview.png"
+      }
     ];
 
     const grid = document.getElementById("campaignGrid");
     const modal = document.getElementById("modal");
     const modalFrame = document.getElementById("modalFrame");
 
-    // Load cards
     campaigns.forEach(c => {
       const card = document.createElement("div");
       card.className = "card";
+      card.dataset.tags = c.tags.join(",");
 
       card.innerHTML = `
-        <img src="${c.img}" alt="${c.title}">
+        <img src="${c.img}" alt="${c.name}">
         <div class="card-content">
-          <div class="card-title">${c.title}</div>
-          <div class="card-subtitle">${c.subtitle}</div>
+          <div class="card-title">${c.name}</div>
 
-          <div class="button-row">        
+          <div class="meta"><span>RUE:</span> ${c.rue}</div>
+          <div class="meta"><span>Country:</span> ${c.country}</div>
+          <div class="meta"><span>City:</span> ${c.city}</div>
+
+          <div class="tags"><span>Tags:</span> ${c.tags.join(", ")}</div>
+
+          <div class="button-row">
             <button class="explore-btn" onclick="openExperience('${c.url}', event)">
               <span class="material-symbols-outlined">view_in_ar</span>
               Explore
@@ -184,22 +239,16 @@
         </div>
       `;
 
-      // Clicking anywhere on the card starts the experience
-      card.addEventListener("click", () => {
-        openExperience(c.url);
-      });
-
+      card.addEventListener("click", () => openExperience(c.url));
       grid.appendChild(card);
     });
 
-    // Open 3D Experience
     function openExperience(url, event) {
-      if (event) event.stopPropagation(); // Prevent card click doubling
+      if (event) event.stopPropagation();
       modal.style.display = "flex";
       modalFrame.src = url;
     }
 
-    // Close modal
     function closeModal() {
       modal.style.display = "none";
       modalFrame.src = "";
